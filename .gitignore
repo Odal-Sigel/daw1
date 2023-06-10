@@ -1,3 +1,8 @@
+# VSCode y Eclipse
+.vscode
+.classpath
+.project
+
 # Compiled class file
 *.class
 
@@ -11,7 +16,7 @@
 .mtj.tmp/
 
 # Package Files #
-*.jar
+# *.jar -> Necesario para la librería del LaF
 *.war
 *.nar
 *.ear
