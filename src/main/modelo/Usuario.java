@@ -1,20 +1,14 @@
 package main.modelo;
 
-public class Usuario {
-	private int usuarioID;
-	private String nombre;
+public abstract class Usuario {
+	private String nickName;
+	private String contraseña;
 
-	public Usuario(int usuarioID, String nombre) {
-		this.usuarioID = usuarioID;
-		this.nombre = nombre;
+	public Usuario(String nickName, String contraseña) {
+		this.nickName = nickName;
+		this.contraseña = contraseña;
 	}
 
-	// Getters
-	public int getUsuarioID() {
-		return usuarioID;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
+	// Métodos
+	public abstract void iniciarSesion(String nickName, String contraseña);
 }
