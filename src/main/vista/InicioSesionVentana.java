@@ -4,6 +4,10 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -15,10 +19,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import main.modelo.Demandante;
+import main.modelo.Empresa;
 
 public class InicioSesionVentana extends JDialog {
 	// private Usuario usuario; // TODO: implementación al iniciar sesión, inicialización del objeto dependiendo del usuario registrado -> Empresa / Demandante
@@ -219,13 +221,19 @@ public class InicioSesionVentana extends JDialog {
 	private void iniciarSesion() {
 		String usuarioS = campoUsuario.getText();
 		String contraseñaS = new String(campoContraseña.getPassword());
+		
+		// Prototipo - Objetos del modelo
+		Demandante dem = new Demandante("pablo", "pablo", "Pablo", "Cornago Gómez", 24);
+		Empresa emp = new Empresa("easy", "easy", "EasyCV", "123456789");
+		
+		System.out.println(dem.getNickName() + " - " + dem.getContraseña());
 
-		if (usuarioS.equals("empresa") && contraseñaS.equals("empresa")) {
-			System.out.println("DEBUG - Usuario: Empresa");
-		} else if (usuarioS.equals("demandante") && contraseñaS.equals("demandante")) {
-			System.out.println("DEBUG - Usuario: Demandante");
+		if (dem.getNickName().equals(usuarioS) && dem.getContraseña().equals(contraseñaS)) {
+			System.out.println("DEBUG - DEMANDANTE");
+		} else if (emp.getNickName().equals(usuarioS) && emp.getContraseña().equals(contraseñaS)) {
+			System.out.println("DEBUG - EMPRESA");
 		} else {
-			JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos");
+			JOptionPane.showMessageDialog(this, "Usuario y/o contraseña incorrectos");
 		}
 	}
 }

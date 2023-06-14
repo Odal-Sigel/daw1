@@ -1,8 +1,8 @@
 package main.modelo;
 
-public abstract class Usuario {
-	private String nickName;
-	private String contraseña;
+public class Usuario {
+	protected String nickName;
+	protected String contraseña;
 
 	public Usuario(String nickName, String contraseña) {
 		this.nickName = nickName;
@@ -10,5 +10,11 @@ public abstract class Usuario {
 	}
 
 	// Métodos
-	public abstract void iniciarSesion(String nickName, String contraseña);
+	public String getNickName() {
+		return nickName;
+	}
+	
+	public String getContraseña() {
+		return contraseña;
+	}
 }
