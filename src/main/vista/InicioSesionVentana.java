@@ -225,13 +225,13 @@ public class InicioSesionVentana extends JDialog {
 		// Prototipo - Objetos del modelo
 		Demandante dem = new Demandante("pablo", "pablo", "Pablo", "Cornago Gómez", 24);
 		Empresa emp = new Empresa("easy", "easy", "EasyCV", "123456789");
-		
-		System.out.println(dem.getNickName() + " - " + dem.getContraseña());
 
 		if (dem.getNickName().equals(usuarioS) && dem.getContraseña().equals(contraseñaS)) {
 			System.out.println("DEBUG - DEMANDANTE");
 		} else if (emp.getNickName().equals(usuarioS) && emp.getContraseña().equals(contraseñaS)) {
-			System.out.println("DEBUG - EMPRESA");
+			VentanaEmpresa ventana = new VentanaEmpresa(this, emp);
+			this.dispose();
+			ventana.setVisible(true);
 		} else {
 			JOptionPane.showMessageDialog(this, "Usuario y/o contraseña incorrectos");
 		}
