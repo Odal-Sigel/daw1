@@ -18,6 +18,9 @@ public class Oferta {
 		this.localidad = localidad;
 		this.descripcion = descripcion;
 		fechaCreacion = LocalDate.now();
+		
+		listaInscritos = new ArrayList<Demandante>();
+		listaPreguntas = new ArrayList<Pregunta>();
 	}
 	
 	public String getPuestoOfertado() {

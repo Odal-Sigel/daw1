@@ -40,5 +40,9 @@ public class ModeloTablaOfertas extends AbstractTableModel {
 				return "Dato no encontrado";
 		}
 	}
-
+	
+	@Override
+	public String getColumnName(int column) {
+		return columnas[column];
+	}
 }
