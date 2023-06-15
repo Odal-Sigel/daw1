@@ -24,6 +24,7 @@ public class VentanaEmpresa extends JFrame {
 	private Empresa empresa;
 	private JTable tabla;
 	private VentanaCrearOferta ventanaNuevaOferta;
+	private ModeloTablaOfertas modelo;
 
 	/**
 	 * Create the frame.
@@ -31,7 +32,6 @@ public class VentanaEmpresa extends JFrame {
 	public VentanaEmpresa(JDialog ventanaInicioSesion, Empresa empresa) {
 		this.ventanaInicioSesion = ventanaInicioSesion;
 		this.empresa = empresa;
-		ventanaNuevaOferta = new VentanaCrearOferta(empresa);
 		initialize();
 	}
 
@@ -55,8 +55,10 @@ public class VentanaEmpresa extends JFrame {
 		JButton btnNuevaOferta = new JButton("Nueva");
 		btnNuevaOferta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ventanaNuevaOferta.setLocationRelativeTo(getContentPane());
+				ventanaNuevaOferta = new VentanaCrearOferta(empresa);
+				ventanaNuevaOferta.setLocationRelativeTo(getContentPane()); // Centrar la ventana respecto a esta
 				ventanaNuevaOferta.setVisible(true);
+				modelo.fireTableDataChanged(); // Actualizar los datos de la tabla una vez se cierre el JDialog
 			}
 		});
 		panelEdicion.add(btnNuevaOferta);
@@ -67,11 +69,7 @@ public class VentanaEmpresa extends JFrame {
 		empresa.crearOferta("Recursos Humanos", "Soria", "Se busca responsable de Recursos Humanos en Soria para una importante empresa del sector tecnológico");
 		
 		/* Tabla */
-		ModeloTablaOfertas modelo = new ModeloTablaOfertas(empresa.getListaOfertas());
-		modelo.addTableModelListener(new TableModelListener() {
-			public void tableChanged(TableModelEvent e) {				
-			}
-		});
+		modelo = new ModeloTablaOfertas(empresa.getListaOfertas());
 		tabla = new JTable(modelo);
 		tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tabla.getTableHeader().setReorderingAllowed(false); // No permitir modificar la posición de las columnas

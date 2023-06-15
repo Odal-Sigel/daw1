@@ -30,7 +30,7 @@ public class VentanaCrearOferta extends JDialog {
 	public VentanaCrearOferta(Empresa empresa) {
 		this.empresa = empresa;
 		initialize();
-		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 	}
 
 	/**
