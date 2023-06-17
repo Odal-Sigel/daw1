@@ -23,9 +23,9 @@ import main.modelo.Demandante;
 import main.modelo.Empresa;
 
 public class InicioSesionVentana extends JDialog {
-	// private Usuario usuario; // TODO: implementación al iniciar sesión, inicialización del objeto dependiendo del usuario registrado -> Empresa / Demandante
 	private JTextField campoUsuario;
 	private JPasswordField campoContraseña;
+
 	// Cambiar de imágenes dependiendo del foco
 	// Usuario
 	private JLabel iconoUsuario;
@@ -221,7 +221,7 @@ public class InicioSesionVentana extends JDialog {
 	private void iniciarSesion() {
 		String usuarioS = campoUsuario.getText();
 		String contraseñaS = new String(campoContraseña.getPassword());
-		
+
 		// Prototipo - Objetos del modelo
 		Demandante dem = new Demandante("pablo", "pablo", "Pablo", "Cornago Gómez", 24);
 		Empresa emp = new Empresa("easy", "easy", "EasyCV", "123456789");

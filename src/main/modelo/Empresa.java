@@ -13,15 +13,15 @@ public class Empresa extends Usuario {
 		this.nif = nif; // TODO: comprobar que el NIF tenga 9 caracteres
 		listaOfertas = new ArrayList<Oferta>();
 	}
-	
+
 	public String getNombre() {
 		return nombre;
 	}
-	
+
 	public String getNIF() {
 		return nif;
 	}
-	
+
 	public void crearOferta(String puestoOfertado, String localidad, String descripcion) {
 		listaOfertas.add(new Oferta(puestoOfertado, this, localidad, descripcion));
 	}
@@ -29,18 +29,18 @@ public class Empresa extends Usuario {
 	public ArrayList<Oferta> getListaOfertas() {
 		return listaOfertas;
 	}
-	
+
 	public int getInscritosOferta(int indiceOferta) {
 		int numero = listaOfertas.get(indiceOferta).getNumInscritos();
 		return numero;
 	}
-	
+
 	public ArrayList<Pregunta> getListaPreguntas(int indiceOferta) {
 		ArrayList<Pregunta> preguntas = listaOfertas.get(indiceOferta).getListaPreguntas();
 		return preguntas;
 	}
-	
+
 	public void contestarPregunta(int indiceOferta, int indicePregunta, String respuesta) {
-		listaOfertas.get(indicePregunta).responderPregunta(indicePregunta, respuesta);
+		listaOfertas.get(indiceOferta).responderPregunta(indicePregunta, respuesta);
 	}
 }

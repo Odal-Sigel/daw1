@@ -8,16 +8,16 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import main.modelo.Empresa;
 import main.modelo.ModeloTablaOfertas;
+import main.modelo.Oferta;
 
 public class VentanaEmpresa extends JFrame {
 	private JDialog ventanaInicioSesion;
@@ -44,13 +44,13 @@ public class VentanaEmpresa extends JFrame {
 		setSize(800, 800);
 		setTitle(empresa.getNombre());
 		setLocationRelativeTo(ventanaInicioSesion);
-		
+
 		/*** Componentes ***/
 		/** Edicion **/
 		JPanel panelEdicion = new JPanel();
 		panelEdicion.setLayout(new FlowLayout(FlowLayout.LEFT));
 		getContentPane().add(panelEdicion, BorderLayout.NORTH);
-		
+
 		/* Nueva Oferta */
 		JButton btnNuevaOferta = new JButton("Nueva");
 		btnNuevaOferta.addActionListener(new ActionListener() {
@@ -62,15 +62,32 @@ public class VentanaEmpresa extends JFrame {
 			}
 		});
 		panelEdicion.add(btnNuevaOferta);
-		
-		/** Ofertas **/		
+
+		JButton btnVerPreguntas = new JButton("Preguntas");
+		btnVerPreguntas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (tabla.getSelectedRow() == -1) {
+					JOptionPane.showMessageDialog(getContentPane(), "Por favor, seleccione una oferta");
+				} else {
+					Oferta oferta = empresa.getListaOfertas().get(tabla.getSelectedRow());
+					VentanaPreguntasOferta ventanaPreguntas = new VentanaPreguntasOferta(oferta);
+					ventanaPreguntas.setLocationRelativeTo(getContentPane());
+					ventanaPreguntas.setVisible(true);
+				}
+			}
+		});
+		panelEdicion.add(btnVerPreguntas);
+
+		/** Ofertas **/
 		// PROTOTIPO - Rellenar las ofertas del usuario
-		empresa.crearOferta("Analista/Programador", "Soria", "Se busca Analista/Programador en Soria para una importante empresa del sector tecnológico");
-		empresa.crearOferta("Recursos Humanos", "Soria", "Se busca responsable de Recursos Humanos en Soria para una importante empresa del sector tecnológico");
-		
+		empresa.crearOferta("Analista/Programador", "Soria",
+				"Se busca Analista/Programador en Soria para una importante empresa del sector tecnológico");
+		empresa.crearOferta("Recursos Humanos", "Soria",
+				"Se busca responsable de Recursos Humanos en Soria para una importante empresa del sector tecnológico");
+
 		/* Tabla */
 		modelo = new ModeloTablaOfertas(empresa.getListaOfertas());
-		tabla = new JTable(modelo);
+		tabla = new JTable(modelo); // No permitir modificar el ancho de las columnas
 		tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tabla.getTableHeader().setReorderingAllowed(false); // No permitir modificar la posición de las columnas
 		tabla.getTableHeader().setResizingAllowed(false); // No permitir modificar el ancho de las columnas
@@ -83,7 +100,7 @@ public class VentanaEmpresa extends JFrame {
 		DefaultTableCellRenderer alinearDerecha = new DefaultTableCellRenderer();
 		alinearDerecha.setHorizontalAlignment(DefaultTableCellRenderer.RIGHT);
 		tabla.getColumnModel().getColumn(2).setCellRenderer(alinearDerecha); // Alinear el texto a la derecha -> inscritos
-		
+
 		/* Panel */
 		JScrollPane panelTabla = new JScrollPane(tabla);
 		getContentPane().add(panelTabla, BorderLayout.CENTER);
