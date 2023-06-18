@@ -5,24 +5,32 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 
+import main.modelo.Empresa;
 import main.modelo.ModeloTablaPreguntas;
 import main.modelo.Oferta;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VentanaPreguntasOferta extends JFrame {
 	private JTable tablaPreguntas;
 	private ModeloTablaPreguntas modelo;
+	private Empresa empresa;
+	private int indiceOferta;
 	private Oferta oferta;
 
 	/**
 	 * Create the frame.
 	 */
-	public VentanaPreguntasOferta(Oferta oferta) {
-		this.oferta = oferta;
+	public VentanaPreguntasOferta(Empresa empresa, int indiceOferta) {
+		this.empresa = empresa;
+		this.indiceOferta = indiceOferta;
+		this.oferta = empresa.getListaOfertas().get(indiceOferta);
 		initialize();
 	}
 
@@ -42,6 +50,16 @@ public class VentanaPreguntasOferta extends JFrame {
 		getContentPane().add(panelResponder, BorderLayout.NORTH);
 
 		JButton btnResponder = new JButton("Responder");
+		btnResponder.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (tablaPreguntas.getSelectedRow() == -1) {
+					JOptionPane.showMessageDialog(getContentPane(), "Por favor, seleccione una pregunta");
+				} else {
+
+				}
+				// empresa.contestarPregunta(indiceOferta, tablaPreguntas.getSelectedRow(), "");
+			}
+		});
 		panelResponder.add(btnResponder);
 
 		/** Preguntas **/

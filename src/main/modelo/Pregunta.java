@@ -24,7 +24,7 @@ public class Pregunta {
 
 	public String getRespuesta() throws respuestaVaciaException {
 		if (respuesta == null) {
-			throw new respuestaVaciaException("Vaya, aún no ha sido respondida la pregunta");
+			throw new respuestaVaciaException();
 		} else {
 			return respuesta;
 		}
