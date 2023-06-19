@@ -2,15 +2,22 @@ package main.modelo;
 
 import java.util.ArrayList;
 
+import main.modelo.excepciones.nifNoValidoException;
+
 public class Empresa extends Usuario {
 	private String nombre;
 	private String nif;
 	private ArrayList<Oferta> listaOfertas;
 
-	public Empresa(String nickName, String contraseña, String nombre, String nif) {
+	public Empresa(String nickName, String contraseña, String nombre, String nif) throws nifNoValidoException {
 		super(nickName, contraseña);
 		this.nombre = nombre;
-		this.nif = nif; // TODO: comprobar que el NIF tenga 9 caracteres
+		// comprobar que el NIF tenga 9 caracteres
+		if (nif.length() != 9) {
+			throw new nifNoValidoException();
+		} else {
+			this.nif = nif;
+		}
 		listaOfertas = new ArrayList<Oferta>();
 	}
 
