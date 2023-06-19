@@ -15,9 +15,9 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import main.modelo.Demandante;
 import main.modelo.Empresa;
 import main.modelo.ModeloTablaOfertas;
-import main.modelo.Oferta;
 
 public class VentanaEmpresa extends JFrame {
 	private JDialog ventanaInicioSesion;
@@ -69,8 +69,8 @@ public class VentanaEmpresa extends JFrame {
 				if (tabla.getSelectedRow() == -1) {
 					JOptionPane.showMessageDialog(getContentPane(), "Por favor, seleccione una oferta");
 				} else {
-					Oferta oferta = empresa.getListaOfertas().get(tabla.getSelectedRow());
-					VentanaPreguntasOferta ventanaPreguntas = new VentanaPreguntasOferta(oferta);
+					VentanaPreguntasOferta ventanaPreguntas = new VentanaPreguntasOferta(empresa,
+							tabla.getSelectedRow());
 					ventanaPreguntas.setLocationRelativeTo(getContentPane());
 					ventanaPreguntas.setVisible(true);
 				}
@@ -84,6 +84,14 @@ public class VentanaEmpresa extends JFrame {
 				"Se busca Analista/Programador en Soria para una importante empresa del sector tecnológico");
 		empresa.crearOferta("Recursos Humanos", "Soria",
 				"Se busca responsable de Recursos Humanos en Soria para una importante empresa del sector tecnológico");
+		// PROTOTIPO - Rellenar las preguntas de las ofertas
+		// Usuarios Demandantes
+		Demandante dem1 = new Demandante("pablo", "pablo", "Pablo", "Cornago Gómez", 24);
+		dem1.realizarPregunta(empresa.getListaOfertas().get(0), "¿Cuál sería el salario base?");
+		dem1.realizarPregunta(empresa.getListaOfertas().get(0), "¿Cuál sería el horario?");
+		Demandante dem2 = new Demandante("paco", "paco", "Francisco", "Jimenez Jimenez", 34);
+		dem2.realizarPregunta(empresa.getListaOfertas().get(0), "¿Existiría la posibilidad de teletrabajar?");
+		dem2.realizarPregunta(empresa.getListaOfertas().get(1), "¿Existiría la posibilidad de teletrabajar?");
 
 		/* Tabla */
 		modelo = new ModeloTablaOfertas(empresa.getListaOfertas());

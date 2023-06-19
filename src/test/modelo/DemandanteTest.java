@@ -10,16 +10,18 @@ class DemandanteTest {
 
 	@Test
 	void pruebaConstructor() {
-		int id = 1;
+		String nickName = "Prueba";
+		String password = "PrueBa";
 		String nombre = "Prueba";
 		String apellidos = "Prueba Prueba";
 		int edad = 24;
 
 		// Objeto
-		Demandante demandante = new Demandante(id, nombre, apellidos, edad);
+		Demandante demandante = new Demandante(nickName, password, nombre, apellidos, edad);
 
 		// Condiciones test
-		assertEquals(id, demandante.getUsuarioID());
+		assertEquals(nickName, demandante.getNickName());
+		assertEquals(password, demandante.getContraseña());
 		assertEquals(nombre, demandante.getNombre());
 		assertEquals(apellidos, demandante.getApellidos());
 		assertEquals(edad, demandante.getEdad());

@@ -10,14 +10,14 @@ class UsuarioTest {
 
 	@Test
 	void pruebaConstructor() {
-		int id = 1;
-		String nombre = "Prueba";
+		String nickName = "Prueba";
+		String password = "PrueBa";
 
 		// Objeto
-		Usuario usuario = new Usuario(id, nombre);
+		Usuario usuario = new Usuario(nickName, password);
 
 		// Condiciones test
-		assertEquals(id, usuario.getUsuarioID());
-		assertEquals(nombre, usuario.getNombre());
+		assertEquals(nickName, usuario.getNickName());
+		assertEquals(password, usuario.getContraseña());
 	}
 }

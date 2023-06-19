@@ -10,17 +10,19 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import main.modelo.Empresa;
+import javax.swing.JScrollPane;
 
 public class VentanaCrearOferta extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private Empresa empresa;
 	private JTextField campoPuestoOfertado;
 	private JTextField campoLocalidad;
-	private JTextField campoDescripcion;
+	private JTextArea campoDescripcion;
 
 	/**
 	 * Create the dialog.
@@ -66,10 +68,15 @@ public class VentanaCrearOferta extends JDialog {
 		lblNewLabel_2.setBounds(10, 123, 100, 14);
 		contentPanel.add(lblNewLabel_2);
 
-		campoDescripcion = new JTextField();
+		campoDescripcion = new JTextArea();
+		campoDescripcion.setLineWrap(true);
+		campoDescripcion.setWrapStyleWord(true);
 		campoDescripcion.setBounds(10, 148, 364, 100);
-		contentPanel.add(campoDescripcion);
 		campoDescripcion.setColumns(10);
+		
+		JScrollPane scrollPane = new JScrollPane(campoDescripcion);
+		scrollPane.setBounds(10, 148, 364, 100);
+		contentPanel.add(scrollPane);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
