@@ -18,7 +18,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import main.modelo.Demandante;
 import main.modelo.Empresa;
 import main.modelo.ModeloTablaOfertas;
-import main.modelo.Oferta;
 
 public class VentanaEmpresa extends JFrame {
 	private JDialog ventanaInicioSesion;

@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import main.modelo.Empresa;
 import main.modelo.ModeloTablaPreguntas;
@@ -55,9 +56,11 @@ public class VentanaPreguntasOferta extends JFrame {
 				if (tablaPreguntas.getSelectedRow() == -1) {
 					JOptionPane.showMessageDialog(getContentPane(), "Por favor, seleccione una pregunta");
 				} else {
-
+					VentanaResponderPregunta ventanaResponder = new VentanaResponderPregunta(empresa, indiceOferta, tablaPreguntas.getSelectedRow());
+					ventanaResponder.setLocationRelativeTo(getContentPane());
+					ventanaResponder.setVisible(true);
+					modelo.fireTableDataChanged(); // Actualizar los datos de la tabla una vez se cierre el JDialog
 				}
-				// empresa.contestarPregunta(indiceOferta, tablaPreguntas.getSelectedRow(), "");
 			}
 		});
 		panelResponder.add(btnResponder);
@@ -72,7 +75,10 @@ public class VentanaPreguntasOferta extends JFrame {
 		tablaPreguntas.getColumnModel().getColumn(0).setPreferredWidth(this.getWidth() / 6 * 3); // Ancho de la primera columna -> Pregunta
 		tablaPreguntas.getColumnModel().getColumn(1).setPreferredWidth(this.getWidth() / 6 * 2); // Ancho de la seguna columna -> Demandante
 		tablaPreguntas.getColumnModel().getColumn(2).setPreferredWidth(this.getWidth() / 6 * 1); // Ancho de la tercera columna -> ¿Respondida?
-
+		DefaultTableCellRenderer alinearCentro = new DefaultTableCellRenderer();
+		alinearCentro.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+		tablaPreguntas.getColumnModel().getColumn(2).setCellRenderer(alinearCentro); // Alinear al centro -> columna respuesta
+		
 		JScrollPane scrollPane = new JScrollPane(tablaPreguntas);
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 	}

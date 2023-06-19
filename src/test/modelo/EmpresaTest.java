@@ -10,17 +10,19 @@ class EmpresaTest {
 
 	@Test
 	void pruebaConstructor() {
-		int id = 1;
+		String nickName = "Prueba";
+		String password = "PrueBa";
 		String nombre = "Prueba";
 		String nif = "56232585T";
 
 		// Objeto
-		Empresa empresa = new Empresa(id, nombre, nif);
+		Empresa empresa = new Empresa(nickName, password, nombre, nif);
 
 		// Condiciones test
-		assertEquals(id, empresa.getUsuarioID());
+		assertEquals(nickName, empresa.getNickName());
+		assertEquals(password, empresa.getContraseña());
 		assertEquals(nombre, empresa.getNombre());
-		assertEquals(nif, empresa.getNif());
+		assertEquals(nif, empresa.getNIF());
 	}
 
 }
