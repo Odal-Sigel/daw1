@@ -19,8 +19,10 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import main.modelo.ConexionDB;
 import main.modelo.Demandante;
 import main.modelo.Empresa;
+import main.modelo.Usuario;
 
 public class InicioSesionVentana extends JDialog {
 	private JTextField campoUsuario;
@@ -36,10 +38,15 @@ public class InicioSesionVentana extends JDialog {
 	private ImageIcon iconoContraseñaSinFoco;
 	private ImageIcon iconoContraseñaConFoco;
 
+	// Base de datos
+	private ConexionDB conexion;
+	private Usuario usuario;
+
 	/**
 	 * Create the dialog.
 	 */
-	public InicioSesionVentana() {
+	public InicioSesionVentana(ConexionDB conexion) {
+		this.conexion = conexion;
 		initialize();
 	}
 
