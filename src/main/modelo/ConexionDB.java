@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import main.modelo.excepciones.DemandanteYaInscritoException;
 import main.modelo.excepciones.NifNoValidoException;
 import main.modelo.excepciones.RespuestaVaciaException;
 import main.modelo.excepciones.UsuarioNoValidoException;
@@ -285,6 +286,31 @@ public class ConexionDB {
 			st.close();
 		} catch (SQLException ex) {
 			System.out.println("Error al realizar la pregunta");
+		}
+	}
+
+	public void inscribirseOferta(Oferta oferta, Demandante demandante) throws DemandanteYaInscritoException {
+		try {
+			Statement st = con.createStatement();
+
+			// Sacar el id de la oferta y del demandante
+			int idOferta = oferta.getID();
+			int idDemandante = sacarID(demandante);
+
+			// ver si ya está inscrito
+			ResultSet rs = st.executeQuery("SELECT COUNT(*) FROM oferta_inscritos WHERE OFERTA=" + idOferta
+					+ " AND DEMANDANTE=" + idDemandante);
+			rs.next();
+			int cuenta = rs.getInt(1);
+			if (cuenta != 0) {
+				throw new DemandanteYaInscritoException();
+			}
+
+			st.executeUpdate("INSERT INTO oferta_inscritos VALUES(" + idOferta + "," + idDemandante + ")");
+
+			st.close();
+		} catch (SQLException ex) {
+			System.out.println("Error al inscribirse a una oferta");
 		}
 	}
 

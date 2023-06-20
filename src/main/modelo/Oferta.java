@@ -55,6 +55,14 @@ public class Oferta {
 		return datos;
 	}
 
+	public String getNombreEmpresa() {
+		return empresa.getNombre();
+	}
+
+	public String getNIFEmpresa() {
+		return empresa.getNIF();
+	}
+
 	public String getLocalidad() {
 		return localidad;
 	}

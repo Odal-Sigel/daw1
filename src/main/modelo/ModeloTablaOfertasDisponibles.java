@@ -31,7 +31,7 @@ public class ModeloTablaOfertasDisponibles extends AbstractTableModel {
 				return oferta.getPuestoOfertado();
 
 			case 1:
-				return oferta.getDatosEmpresa();
+				return oferta.getNombreEmpresa();
 
 			case 2:
 				return oferta.getLocalidad();

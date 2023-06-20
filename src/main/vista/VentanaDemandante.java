@@ -94,6 +94,7 @@ public class VentanaDemandante extends JFrame {
 					Oferta oferta = lista.get(tabla.getSelectedRow());
 					try {
 						demandante.inscribirseOferta(oferta);
+						conexion.inscribirseOferta(oferta, demandante);
 						JOptionPane.showMessageDialog(getContentPane(), "Se ha inscrito a la oferta");
 					} catch (DemandanteYaInscritoException ex) {
 						JOptionPane.showMessageDialog(getContentPane(), ex.getMessage());
