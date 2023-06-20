@@ -43,6 +43,7 @@ public class Demandante extends Usuario {
 
 	public void realizarPregunta(int id, Oferta oferta, String contenido, String respuesta) {
 		Pregunta pregunta = new Pregunta(id, oferta, this, contenido);
+		pregunta.setRespuesta(respuesta);
 		listaPreguntas.add(pregunta);
 	}
 
