@@ -43,8 +43,9 @@ public class Principal {
 			fichero.close();
 
 			// Conexión con la base de datos
-			ConexionDB conexion = new ConexionDB(url, user, pass);
-
+			// ConexionDB conexion = new ConexionDB(url, user, pass);
+			ConexionDB conexion = null;
+			
 			// Crear Ventana de Inicio de sesión
 			InicioSesionVentana ventana = new InicioSesionVentana(conexion);
 			ventana.setVisible(true);
@@ -52,9 +53,9 @@ public class Principal {
 			System.out.println("El fichero de configuración no existe");
 		} catch (IOException ex) {
 			System.out.println("Error de lectura, revisar el fichero de configuración");
-		} catch (SQLException ex) {
+		}/* catch (SQLException ex) {
 			System.out.println("Error al conectarse con la base de datos");
-		} catch (Exception ex) {
+		}*/ catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}

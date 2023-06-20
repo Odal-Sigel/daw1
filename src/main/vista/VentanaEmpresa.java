@@ -44,7 +44,7 @@ public class VentanaEmpresa extends JFrame {
 	}
 
 	/**
-	 * Initialize the dialog
+	 * Initialize the frame
 	 */
 	public void initialize() {
 		// Configuración de la ventana
@@ -103,7 +103,7 @@ public class VentanaEmpresa extends JFrame {
 
 		/* Tabla */
 		modelo = new ModeloTablaOfertas(empresa.getListaOfertas());
-		tabla = new JTable(modelo); // No permitir modificar el ancho de las columnas
+		tabla = new JTable(modelo);
 		tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tabla.getTableHeader().setReorderingAllowed(false); // No permitir modificar la posición de las columnas
 		tabla.getTableHeader().setResizingAllowed(false); // No permitir modificar el ancho de las columnas

@@ -254,7 +254,10 @@ public class InicioSesionVentana extends JDialog {
 			emp = new Empresa("easy", "easy", "EasyCV", "123456789");
 
 			if (dem.getNickName().equals(usuarioS) && dem.getContraseña().equals(contraseñaS)) {
-				System.out.println("DEBUG - DEMANDANTE");
+				VentanaDemandante ventana = new VentanaDemandante(dem);
+				this.dispose();
+				ventana.setLocationRelativeTo(this);
+				ventana.setVisible(true);
 			} else if (emp.getNickName().equals(usuarioS) && emp.getContraseña().equals(contraseñaS)) {
 				VentanaEmpresa ventana = new VentanaEmpresa(this, emp);
 				this.dispose();

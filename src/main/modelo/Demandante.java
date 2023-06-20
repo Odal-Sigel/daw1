@@ -2,6 +2,8 @@ package main.modelo;
 
 import java.util.ArrayList;
 
+import main.modelo.excepciones.DemandanteYaInscritoException;
+
 public class Demandante extends Usuario {
 	private String nombre;
 	private String apellidos;
@@ -43,7 +45,7 @@ public class Demandante extends Usuario {
 		return listaPreguntas;
 	}
 
-	public void inscribirseOferta(Oferta oferta) {
+	public void inscribirseOferta(Oferta oferta) throws DemandanteYaInscritoException {
 		oferta.addDemandanteInscrito(this);
 	}
 	

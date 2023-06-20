@@ -3,6 +3,7 @@ package main.modelo;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import main.modelo.excepciones.DemandanteYaInscritoException;
 import main.modelo.excepciones.respuestaVaciaException;
 
 public class Oferta {
@@ -76,8 +77,12 @@ public class Oferta {
 		return listaInscritos;
 	}
 
-	public void addDemandanteInscrito(Demandante demandante) {
-		listaInscritos.add(demandante);
+	public void addDemandanteInscrito(Demandante demandante) throws DemandanteYaInscritoException {
+		if (listaInscritos.contains(demandante)) {
+			throw new DemandanteYaInscritoException();
+		} else {
+			listaInscritos.add(demandante);			
+		}
 	}
 
 	public int getNumInscritos() {
