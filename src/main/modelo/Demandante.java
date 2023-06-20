@@ -17,9 +17,9 @@ public class Demandante extends Usuario {
 		this.apellidos = apellidos;
 		this.edad = edad;
 		listaPreguntas = new ArrayList<Pregunta>();
-		
+
 	}
-	
+
 	public String getNombre() {
 		return nombre;
 	}
@@ -27,17 +27,22 @@ public class Demandante extends Usuario {
 	public String getApellidos() {
 		return apellidos;
 	}
-	
+
 	public String getNombreCompleto() {
 		return apellidos + ", " + nombre;
 	}
-	
+
 	public int getEdad() {
 		return edad;
 	}
-	
-	public void realizarPregunta(Oferta oferta, String contenido) {
-		Pregunta pregunta = new Pregunta(oferta, this, contenido);
+
+	public void realizarPregunta(int id, Oferta oferta, String contenido) {
+		Pregunta pregunta = new Pregunta(id, oferta, this, contenido);
+		listaPreguntas.add(pregunta);
+	}
+
+	public void realizarPregunta(int id, Oferta oferta, String contenido, String respuesta) {
+		Pregunta pregunta = new Pregunta(id, oferta, this, contenido);
 		listaPreguntas.add(pregunta);
 	}
 
@@ -48,7 +53,7 @@ public class Demandante extends Usuario {
 	public void inscribirseOferta(Oferta oferta) throws DemandanteYaInscritoException {
 		oferta.addDemandanteInscrito(this);
 	}
-	
+
 	public ArrayList<Oferta> getListaOfertasInscritas() {
 		return listaOfertasInscritas;
 	}

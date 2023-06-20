@@ -15,11 +15,10 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableCellRenderer;
 
-import main.modelo.Demandante;
+import main.modelo.ConexionDB;
 import main.modelo.Empresa;
 import main.modelo.ModeloTablaOfertas;
 import main.modelo.Usuario;
-import main.modelo.excepciones.nifNoValidoException;
 
 public class VentanaEmpresa extends JFrame {
 	private JDialog ventanaInicioSesion;
@@ -27,19 +26,15 @@ public class VentanaEmpresa extends JFrame {
 	private JTable tabla;
 	private VentanaCrearOferta ventanaNuevaOferta;
 	private ModeloTablaOfertas modelo;
+	private ConexionDB conexion;
 
 	/**
 	 * Create the frame.
 	 */
-	public VentanaEmpresa(JDialog ventanaInicioSesion, Usuario user) {
+	public VentanaEmpresa(ConexionDB conexion, JDialog ventanaInicioSesion, Usuario user) {
+		this.conexion = conexion;
 		this.ventanaInicioSesion = ventanaInicioSesion;
-		// this.empresa = (Empresa) user;
-		try {
-			empresa = new Empresa("easy", "easy", "EasyCV", "123456789");
-		} catch (nifNoValidoException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		this.empresa = (Empresa) user;
 		initialize();
 	}
 
@@ -47,6 +42,8 @@ public class VentanaEmpresa extends JFrame {
 	 * Initialize the frame
 	 */
 	public void initialize() {
+		conexion.sacarOfertas(empresa);
+		conexion.sacarPreguntas(empresa);
 		// Configuración de la ventana
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(800, 800);
@@ -63,7 +60,7 @@ public class VentanaEmpresa extends JFrame {
 		JButton btnNuevaOferta = new JButton("Nueva");
 		btnNuevaOferta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ventanaNuevaOferta = new VentanaCrearOferta(empresa);
+				ventanaNuevaOferta = new VentanaCrearOferta(conexion, empresa);
 				ventanaNuevaOferta.setLocationRelativeTo(getContentPane()); // Centrar la ventana respecto a esta
 				ventanaNuevaOferta.setVisible(true);
 				modelo.fireTableDataChanged(); // Actualizar los datos de la tabla una vez se cierre el JDialog
@@ -77,7 +74,7 @@ public class VentanaEmpresa extends JFrame {
 				if (tabla.getSelectedRow() == -1) {
 					JOptionPane.showMessageDialog(getContentPane(), "Por favor, seleccione una oferta");
 				} else {
-					VentanaPreguntasOferta ventanaPreguntas = new VentanaPreguntasOferta(empresa,
+					VentanaPreguntasOferta ventanaPreguntas = new VentanaPreguntasOferta(conexion, empresa,
 							tabla.getSelectedRow());
 					ventanaPreguntas.setLocationRelativeTo(getContentPane());
 					ventanaPreguntas.setVisible(true);
@@ -87,20 +84,6 @@ public class VentanaEmpresa extends JFrame {
 		panelEdicion.add(btnVerPreguntas);
 
 		/** Ofertas **/
-		// PROTOTIPO - Rellenar las ofertas del usuario
-		empresa.crearOferta("Analista/Programador", "Soria",
-				"Se busca Analista/Programador en Soria para una importante empresa del sector tecnológico");
-		empresa.crearOferta("Recursos Humanos", "Soria",
-				"Se busca responsable de Recursos Humanos en Soria para una importante empresa del sector tecnológico");
-		// PROTOTIPO - Rellenar las preguntas de las ofertas
-		// Usuarios Demandantes
-		Demandante dem1 = new Demandante("pablo", "pablo", "Pablo", "Cornago Gómez", 24);
-		dem1.realizarPregunta(empresa.getListaOfertas().get(0), "¿Cuál sería el salario base?");
-		dem1.realizarPregunta(empresa.getListaOfertas().get(0), "¿Cuál sería el horario?");
-		Demandante dem2 = new Demandante("paco", "paco", "Francisco", "Jimenez Jimenez", 34);
-		dem2.realizarPregunta(empresa.getListaOfertas().get(0), "¿Existiría la posibilidad de teletrabajar?");
-		dem2.realizarPregunta(empresa.getListaOfertas().get(1), "¿Existiría la posibilidad de teletrabajar?");
-
 		/* Tabla */
 		modelo = new ModeloTablaOfertas(empresa.getListaOfertas());
 		tabla = new JTable(modelo);

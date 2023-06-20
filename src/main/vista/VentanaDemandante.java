@@ -15,14 +15,15 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import main.modelo.ConexionDB;
 import main.modelo.Demandante;
-import main.modelo.Empresa;
 import main.modelo.ModeloTablaOfertasDisponibles;
 import main.modelo.Oferta;
+import main.modelo.Usuario;
 import main.modelo.excepciones.DemandanteYaInscritoException;
-import main.modelo.excepciones.nifNoValidoException;
 
 public class VentanaDemandante extends JFrame {
+	private ConexionDB conexion;
 	private Demandante demandante;
 	private JTable tabla;
 	private ArrayList<Oferta> lista;
@@ -30,8 +31,9 @@ public class VentanaDemandante extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VentanaDemandante(Demandante demandante) {
-		this.demandante = demandante;
+	public VentanaDemandante(ConexionDB conexion, Usuario userU) {
+		this.conexion = conexion;
+		demandante = (Demandante) userU;
 		initialize();
 	}
 
@@ -74,7 +76,7 @@ public class VentanaDemandante extends JFrame {
 					JOptionPane.showMessageDialog(getContentPane(), "Por favor, seleccione una oferta");
 				} else {
 					Oferta oferta = lista.get(tabla.getSelectedRow());
-					VentanaNuevaPregunta ventana = new VentanaNuevaPregunta(demandante, oferta);
+					VentanaNuevaPregunta ventana = new VentanaNuevaPregunta(conexion, demandante, oferta);
 					ventana.setLocationRelativeTo(getContentPane());
 					ventana.setVisible(true);
 				}
@@ -101,42 +103,30 @@ public class VentanaDemandante extends JFrame {
 		});
 		panelBotones.add(btnInscribirseOferta);
 
-		// Prototipo - Lista ofertas
-		lista = new ArrayList<Oferta>();
-		Empresa empresa1;
-		try {
-			empresa1 = new Empresa("easy", "easy", "EasyCV", "123456789");
-			empresa1.crearOferta("Analista/Programador", "Soria",
-					"Se busca Analista/Programador en Soria para una importante empresa del sector tecnológico");
-			empresa1.crearOferta("Recursos Humanos", "Soria",
-					"Se busca responsable de Recursos Humanos en Soria para una importante empresa del sector tecnológico");
+		// Lista ofertas
+		lista = conexion.rellenarListaOfertas();
 
-			lista = empresa1.getListaOfertas();
+		/** Tabla **/
+		ModeloTablaOfertasDisponibles modelo = new ModeloTablaOfertasDisponibles(lista);
 
-			/** Tabla **/
-			ModeloTablaOfertasDisponibles modelo = new ModeloTablaOfertasDisponibles(lista);
+		tabla = new JTable(modelo);
+		tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tabla.getTableHeader().setReorderingAllowed(false); // No permitir modificar la posición de las columnas
+		tabla.getTableHeader().setResizingAllowed(false); // No permitir modificar el ancho de las columnas
+		tabla.getColumnModel().getColumn(0).setPreferredWidth(this.getWidth() / 5 * 2); // Ancho de la primera
+																						// columna -> puesto
+		tabla.getColumnModel().getColumn(1).setPreferredWidth(this.getWidth() / 5); // Ancho de la segunda columna
+																					// -> empresa
+		DefaultTableCellRenderer alinearCentro = new DefaultTableCellRenderer();
+		alinearCentro.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+		tabla.getColumnModel().getColumn(1).setCellRenderer(alinearCentro); // Alinear al centro
+		tabla.getColumnModel().getColumn(2).setPreferredWidth(this.getWidth() / 5); // Ancho de la tercera columna
+																					// -> localidad
+		tabla.getColumnModel().getColumn(2).setCellRenderer(alinearCentro); // Alinear al centro
+		tabla.getColumnModel().getColumn(3).setPreferredWidth(this.getWidth() / 5); // Ancho de la cuarta columna ->
+																					// fecha
 
-			tabla = new JTable(modelo);
-			tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			tabla.getTableHeader().setReorderingAllowed(false); // No permitir modificar la posición de las columnas
-			tabla.getTableHeader().setResizingAllowed(false); // No permitir modificar el ancho de las columnas
-			tabla.getColumnModel().getColumn(0).setPreferredWidth(this.getWidth() / 5 * 2); // Ancho de la primera
-																							// columna -> puesto
-			tabla.getColumnModel().getColumn(1).setPreferredWidth(this.getWidth() / 5); // Ancho de la segunda columna
-																						// -> empresa
-			DefaultTableCellRenderer alinearCentro = new DefaultTableCellRenderer();
-			alinearCentro.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
-			tabla.getColumnModel().getColumn(1).setCellRenderer(alinearCentro); // Alinear al centro
-			tabla.getColumnModel().getColumn(2).setPreferredWidth(this.getWidth() / 5); // Ancho de la tercera columna
-																						// -> localidad
-			tabla.getColumnModel().getColumn(2).setCellRenderer(alinearCentro); // Alinear al centro
-			tabla.getColumnModel().getColumn(3).setPreferredWidth(this.getWidth() / 5); // Ancho de la cuarta columna ->
-																						// fecha
-
-			JScrollPane panelTabla = new JScrollPane(tabla);
-			getContentPane().add(panelTabla, BorderLayout.CENTER);
-		} catch (nifNoValidoException e) {
-			e.printStackTrace();
-		}
+		JScrollPane panelTabla = new JScrollPane(tabla);
+		getContentPane().add(panelTabla, BorderLayout.CENTER);
 	}
 }

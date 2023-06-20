@@ -1,7 +1,7 @@
 package main.modelo.excepciones;
 
-public class respuestaVaciaException extends Exception {
-	public respuestaVaciaException() {
+public class RespuestaVaciaException extends Exception {
+	public RespuestaVaciaException() {
 		super("Vaya, aún no ha sido respondida la pregunta");
 	}
 }

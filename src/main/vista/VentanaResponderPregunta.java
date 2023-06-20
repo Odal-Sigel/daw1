@@ -11,10 +11,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
+import main.modelo.ConexionDB;
 import main.modelo.Empresa;
 import main.modelo.Oferta;
 import main.modelo.Pregunta;
-import main.modelo.excepciones.respuestaVaciaException;
+import main.modelo.excepciones.RespuestaVaciaException;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -22,6 +23,7 @@ import javax.swing.JScrollPane;
 
 public class VentanaResponderPregunta extends JDialog {
 	private final JPanel panelTexto = new JPanel();
+	private ConexionDB conexion;
 	private Empresa empresa;
 	private int indiceOferta;
 	private int indicePregunta;
@@ -34,7 +36,8 @@ public class VentanaResponderPregunta extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public VentanaResponderPregunta(Empresa empresa, int indiceOferta, int indicePregunta) {
+	public VentanaResponderPregunta(ConexionDB conexion, Empresa empresa, int indiceOferta, int indicePregunta) {
+		this.conexion = conexion;
 		this.empresa = empresa;
 		this.indiceOferta = indiceOferta;
 		this.indicePregunta = indicePregunta;
@@ -72,7 +75,7 @@ public class VentanaResponderPregunta extends JDialog {
 		// Agregar la respuesta anterior si la hubiese para editarla
 		try {
 			textArea.setText(pregunta.getRespuesta());
-		} catch (respuestaVaciaException ex) {
+		} catch (RespuestaVaciaException ex) {
 			textArea.setText("");
 		}
 		textArea.setBounds(10, 35, 364, 82);
@@ -93,6 +96,7 @@ public class VentanaResponderPregunta extends JDialog {
 					JOptionPane.showMessageDialog(getContentPane(), "Por favor, rellene el campo requerido");
 				} else {
 					empresa.contestarPregunta(indiceOferta, indicePregunta, textArea.getText());
+					conexion.contestarPregunta(empresa, indiceOferta, indicePregunta);
 					JOptionPane.showMessageDialog(getContentPane(), "Pregunta respondida");
 					dispose();
 				}

@@ -1,29 +1,49 @@
 package main.modelo;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 import main.modelo.excepciones.DemandanteYaInscritoException;
-import main.modelo.excepciones.respuestaVaciaException;
+import main.modelo.excepciones.RespuestaVaciaException;
 
 public class Oferta {
+	private int id;
 	private String puestoOfertado;
 	private Empresa empresa;
 	private String localidad;
 	private String descripcion;
-	private LocalDate fechaCreacion;
+	private Date fechaCreacion;
 	private ArrayList<Demandante> listaInscritos;
 	private ArrayList<Pregunta> listaPreguntas;
 
-	public Oferta(String puestoOfertado, Empresa empresa, String localidad, String descripcion) {
+	public Oferta(int id, String puestoOfertado, Empresa empresa, String localidad, String descripcion) {
+		this.id = id;
 		this.puestoOfertado = puestoOfertado;
 		this.empresa = empresa;
 		this.localidad = localidad;
 		this.descripcion = descripcion;
-		fechaCreacion = LocalDate.now();
+		fechaCreacion = Date.valueOf(LocalDate.now());
 
 		listaInscritos = new ArrayList<Demandante>();
 		listaPreguntas = new ArrayList<Pregunta>();
+	}
+
+	public Oferta(int id, String puestoOfertado, Empresa empresa, String localidad, String descripcion,
+			Date fechaCreacion) {
+		this.id = id;
+		this.puestoOfertado = puestoOfertado;
+		this.empresa = empresa;
+		this.localidad = localidad;
+		this.descripcion = descripcion;
+		this.fechaCreacion = fechaCreacion;
+
+		listaInscritos = new ArrayList<Demandante>();
+		listaPreguntas = new ArrayList<Pregunta>();
+	}
+
+	public int getID() {
+		return id;
 	}
 
 	public String getPuestoOfertado() {
@@ -43,7 +63,7 @@ public class Oferta {
 		return descripcion;
 	}
 
-	public LocalDate getFechaCreacion() {
+	public Date getFechaCreacion() {
 		return fechaCreacion;
 	}
 
@@ -65,7 +85,7 @@ public class Oferta {
 
 		try {
 			respuesta = listaPreguntas.get(indicePregunta).getRespuesta();
-		} catch (respuestaVaciaException ex) {
+		} catch (RespuestaVaciaException ex) {
 			respuesta = ex.getMessage();
 		}
 
@@ -81,7 +101,7 @@ public class Oferta {
 		if (listaInscritos.contains(demandante)) {
 			throw new DemandanteYaInscritoException();
 		} else {
-			listaInscritos.add(demandante);			
+			listaInscritos.add(demandante);
 		}
 	}
 

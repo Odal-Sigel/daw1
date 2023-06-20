@@ -14,6 +14,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import main.modelo.ConexionDB;
 import main.modelo.Empresa;
 import javax.swing.JScrollPane;
 
@@ -23,11 +24,13 @@ public class VentanaCrearOferta extends JDialog {
 	private JTextField campoPuestoOfertado;
 	private JTextField campoLocalidad;
 	private JTextArea campoDescripcion;
+	private ConexionDB conexion;
 
 	/**
 	 * Create the dialog.
 	 */
-	public VentanaCrearOferta(Empresa empresa) {
+	public VentanaCrearOferta(ConexionDB conexion, Empresa empresa) {
+		this.conexion = conexion;
 		this.empresa = empresa;
 		initialize();
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -73,7 +76,7 @@ public class VentanaCrearOferta extends JDialog {
 		campoDescripcion.setWrapStyleWord(true);
 		campoDescripcion.setBounds(10, 148, 364, 100);
 		campoDescripcion.setColumns(10);
-		
+
 		JScrollPane scrollPane = new JScrollPane(campoDescripcion);
 		scrollPane.setBounds(10, 148, 364, 100);
 		contentPanel.add(scrollPane);
@@ -82,15 +85,17 @@ public class VentanaCrearOferta extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
+				JButton okButton = new JButton("Crear");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if (campoPuestoOfertado.getText().equals("") || campoLocalidad.getText().equals("")
 								|| campoDescripcion.getText().equals("")) {
 							JOptionPane.showMessageDialog(getContentPane(), "Por favor, rellene todos los campos");
 						} else {
-							empresa.crearOferta(campoPuestoOfertado.getText(), campoLocalidad.getText(),
+							empresa.crearOferta(conexion.siguienteIDOferta(), campoPuestoOfertado.getText(),
+									campoLocalidad.getText(),
 									campoDescripcion.getText());
+							conexion.crearOferta(empresa);
 							JOptionPane.showMessageDialog(getContentPane(), "Oferta creada");
 							setVisible(false);
 						}
@@ -100,10 +105,10 @@ public class VentanaCrearOferta extends JDialog {
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JButton cancelButton = new JButton("Cancel");
+				JButton cancelButton = new JButton("Cancelar");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						setVisible(false);
+						dispose();
 					}
 				});
 				buttonPane.add(cancelButton);

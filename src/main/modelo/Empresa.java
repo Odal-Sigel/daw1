@@ -1,20 +1,21 @@
 package main.modelo;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
-import main.modelo.excepciones.nifNoValidoException;
+import main.modelo.excepciones.NifNoValidoException;
 
 public class Empresa extends Usuario {
 	private String nombre;
 	private String nif;
 	private ArrayList<Oferta> listaOfertas;
 
-	public Empresa(String nickName, String contraseña, String nombre, String nif) throws nifNoValidoException {
+	public Empresa(String nickName, String contraseña, String nombre, String nif) throws NifNoValidoException {
 		super(nickName, contraseña);
 		this.nombre = nombre;
 		// comprobar que el NIF tenga 9 caracteres
 		if (nif.length() != 9) {
-			throw new nifNoValidoException();
+			throw new NifNoValidoException();
 		} else {
 			this.nif = nif;
 		}
@@ -29,8 +30,12 @@ public class Empresa extends Usuario {
 		return nif;
 	}
 
-	public void crearOferta(String puestoOfertado, String localidad, String descripcion) {
-		listaOfertas.add(new Oferta(puestoOfertado, this, localidad, descripcion));
+	public void crearOferta(int id, String puestoOfertado, String localidad, String descripcion) {
+		listaOfertas.add(new Oferta(id, puestoOfertado, this, localidad, descripcion));
+	}
+
+	public void crearOferta(int id, String puestoOfertado, String localidad, String descripcion, Date fechaCreacion) {
+		listaOfertas.add(new Oferta(id, puestoOfertado, this, localidad, descripcion, fechaCreacion));
 	}
 
 	public ArrayList<Oferta> getListaOfertas() {

@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import main.modelo.Empresa;
-import main.modelo.excepciones.nifNoValidoException;
+import main.modelo.excepciones.NifNoValidoException;
 
 class EmpresaTest {
 
@@ -26,7 +26,7 @@ class EmpresaTest {
 			assertEquals(password, empresa.getContraseña());
 			assertEquals(nombre, empresa.getNombre());
 			assertEquals(nif, empresa.getNIF());
-		} catch (nifNoValidoException ex) {
+		} catch (NifNoValidoException ex) {
 			fail(ex.getMessage());
 		}
 

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
 
-import main.modelo.excepciones.respuestaVaciaException;
+import main.modelo.excepciones.RespuestaVaciaException;
 
 public class ModeloTablaPreguntas extends AbstractTableModel {
 	private String columnas[] = { "Pregunta", "Demandante", "Respuesta" };
@@ -39,7 +39,7 @@ public class ModeloTablaPreguntas extends AbstractTableModel {
 				String respuesta;
 				try {
 					respuesta = pregunta.getRespuesta();
-				} catch (respuestaVaciaException ex) {
+				} catch (RespuestaVaciaException ex) {
 					respuesta = "-";
 				}
 				return respuesta;

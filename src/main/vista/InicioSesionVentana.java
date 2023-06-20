@@ -23,7 +23,7 @@ import main.modelo.ConexionDB;
 import main.modelo.Demandante;
 import main.modelo.Empresa;
 import main.modelo.Usuario;
-import main.modelo.excepciones.nifNoValidoException;
+import main.modelo.excepciones.UsuarioNoValidoException;
 
 public class InicioSesionVentana extends JDialog {
 	private JTextField campoUsuario;
@@ -230,45 +230,23 @@ public class InicioSesionVentana extends JDialog {
 		String usuarioS = campoUsuario.getText();
 		String contraseñaS = new String(campoContraseña.getPassword());
 
-		/*
-		boolean bandera = conexion.inicioDeSesion(usuarioS, contraseñaS, userU);
-		
-		if (bandera) {
-			if (userU instanceof Demandante) {
-				System.out.println("DEBUG - DEMANDANTE");
-			} else {
-				VentanaEmpresa ventana = new VentanaEmpresa(this, userU);
-				this.dispose();
-				ventana.setVisible(true);
-			}
-		} else {
-			JOptionPane.showMessageDialog(this, "Usuario y/o contraseña incorrectos");
-		}
-		*/
-
-		// Prototipo - Objetos del modelo
-		/**/
-		Demandante dem = new Demandante("pablo", "pablo", "Pablo", "Cornago Gómez", 24);
-		Empresa emp;
 		try {
-			emp = new Empresa("easy", "easy", "EasyCV", "123456789");
+			userU = conexion.inicioDeSesion(usuarioS, contraseñaS);
 
-			if (dem.getNickName().equals(usuarioS) && dem.getContraseña().equals(contraseñaS)) {
-				VentanaDemandante ventana = new VentanaDemandante(dem);
+			if (userU instanceof Demandante) {
+				VentanaDemandante ventana = new VentanaDemandante(conexion, userU);
 				this.dispose();
 				ventana.setLocationRelativeTo(this);
 				ventana.setVisible(true);
-			} else if (emp.getNickName().equals(usuarioS) && emp.getContraseña().equals(contraseñaS)) {
-				VentanaEmpresa ventana = new VentanaEmpresa(this, emp);
+			} else if (userU instanceof Empresa) {
+				VentanaEmpresa ventana = new VentanaEmpresa(conexion, this, userU);
 				this.dispose();
 				ventana.setVisible(true);
 			} else {
-				JOptionPane.showMessageDialog(this, "Usuario y/o contraseña incorrectos");
+				throw new UsuarioNoValidoException();
 			}
-		} catch (nifNoValidoException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (UsuarioNoValidoException ex) {
+			JOptionPane.showMessageDialog(this, "Usuario y/o contraseña incorrectos");
 		}
-		/**/
 	}
 }

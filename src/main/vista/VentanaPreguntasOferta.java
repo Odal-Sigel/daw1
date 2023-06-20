@@ -12,6 +12,7 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import main.modelo.ConexionDB;
 import main.modelo.Empresa;
 import main.modelo.ModeloTablaPreguntas;
 import main.modelo.Oferta;
@@ -24,11 +25,13 @@ public class VentanaPreguntasOferta extends JFrame {
 	private Empresa empresa;
 	private int indiceOferta;
 	private Oferta oferta;
+	private ConexionDB conexion;
 
 	/**
 	 * Create the frame.
 	 */
-	public VentanaPreguntasOferta(Empresa empresa, int indiceOferta) {
+	public VentanaPreguntasOferta(ConexionDB conexion, Empresa empresa, int indiceOferta) {
+		this.conexion = conexion;
 		this.empresa = empresa;
 		this.indiceOferta = indiceOferta;
 		this.oferta = empresa.getListaOfertas().get(indiceOferta);
@@ -56,7 +59,8 @@ public class VentanaPreguntasOferta extends JFrame {
 				if (tablaPreguntas.getSelectedRow() == -1) {
 					JOptionPane.showMessageDialog(getContentPane(), "Por favor, seleccione una pregunta");
 				} else {
-					VentanaResponderPregunta ventanaResponder = new VentanaResponderPregunta(empresa, indiceOferta, tablaPreguntas.getSelectedRow());
+					VentanaResponderPregunta ventanaResponder = new VentanaResponderPregunta(conexion, empresa,
+							indiceOferta, tablaPreguntas.getSelectedRow());
 					ventanaResponder.setLocationRelativeTo(getContentPane());
 					ventanaResponder.setVisible(true);
 					modelo.fireTableDataChanged(); // Actualizar los datos de la tabla una vez se cierre el JDialog
@@ -78,7 +82,7 @@ public class VentanaPreguntasOferta extends JFrame {
 		DefaultTableCellRenderer alinearCentro = new DefaultTableCellRenderer();
 		alinearCentro.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
 		tablaPreguntas.getColumnModel().getColumn(2).setCellRenderer(alinearCentro); // Alinear al centro -> columna respuesta
-		
+
 		JScrollPane scrollPane = new JScrollPane(tablaPreguntas);
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 	}

@@ -17,12 +17,13 @@ public class Principal {
 		EasyCV.setup();
 
 		// Conexión con la Base de Datos
-		// Lectura del fichero de configuración de la base de datos
-		String url = "";
-		String user = "";
-		String pass = "";
 		try {
-			FileReader fichero = new FileReader("./resources/db.conf");
+			// Lectura del fichero de configuración de la base de datos
+			String url = "";
+			String user = "";
+			String pass = "";
+
+			FileReader fichero = new FileReader("./resources/db.conf"); // Fichero a leer
 			BufferedReader buf = new BufferedReader(fichero);
 			for (int i = 0; i < 3; i++) {
 				String textoS = buf.readLine();
@@ -43,9 +44,8 @@ public class Principal {
 			fichero.close();
 
 			// Conexión con la base de datos
-			// ConexionDB conexion = new ConexionDB(url, user, pass);
-			ConexionDB conexion = null;
-			
+			ConexionDB conexion = new ConexionDB(url, user, pass);
+
 			// Crear Ventana de Inicio de sesión
 			InicioSesionVentana ventana = new InicioSesionVentana(conexion);
 			ventana.setVisible(true);
@@ -53,9 +53,9 @@ public class Principal {
 			System.out.println("El fichero de configuración no existe");
 		} catch (IOException ex) {
 			System.out.println("Error de lectura, revisar el fichero de configuración");
-		}/* catch (SQLException ex) {
+		} catch (SQLException ex) {
 			System.out.println("Error al conectarse con la base de datos");
-		}*/ catch (Exception ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
