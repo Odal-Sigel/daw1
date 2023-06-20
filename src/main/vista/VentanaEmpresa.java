@@ -18,6 +18,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import main.modelo.Demandante;
 import main.modelo.Empresa;
 import main.modelo.ModeloTablaOfertas;
+import main.modelo.Usuario;
+import main.modelo.excepciones.nifNoValidoException;
 
 public class VentanaEmpresa extends JFrame {
 	private JDialog ventanaInicioSesion;
@@ -29,9 +31,15 @@ public class VentanaEmpresa extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VentanaEmpresa(JDialog ventanaInicioSesion, Empresa empresa) {
+	public VentanaEmpresa(JDialog ventanaInicioSesion, Usuario user) {
 		this.ventanaInicioSesion = ventanaInicioSesion;
-		this.empresa = empresa;
+		// this.empresa = (Empresa) user;
+		try {
+			empresa = new Empresa("easy", "easy", "EasyCV", "123456789");
+		} catch (nifNoValidoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		initialize();
 	}
 

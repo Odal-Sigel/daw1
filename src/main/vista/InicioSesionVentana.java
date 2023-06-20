@@ -23,6 +23,7 @@ import main.modelo.ConexionDB;
 import main.modelo.Demandante;
 import main.modelo.Empresa;
 import main.modelo.Usuario;
+import main.modelo.excepciones.nifNoValidoException;
 
 public class InicioSesionVentana extends JDialog {
 	private JTextField campoUsuario;
@@ -40,7 +41,7 @@ public class InicioSesionVentana extends JDialog {
 
 	// Base de datos
 	private ConexionDB conexion;
-	private Usuario usuario;
+	private Usuario userU;
 
 	/**
 	 * Create the dialog.
@@ -229,18 +230,42 @@ public class InicioSesionVentana extends JDialog {
 		String usuarioS = campoUsuario.getText();
 		String contraseñaS = new String(campoContraseña.getPassword());
 
-		// Prototipo - Objetos del modelo
-		Demandante dem = new Demandante("pablo", "pablo", "Pablo", "Cornago Gómez", 24);
-		Empresa emp = new Empresa("easy", "easy", "EasyCV", "123456789");
-
-		if (dem.getNickName().equals(usuarioS) && dem.getContraseña().equals(contraseñaS)) {
-			System.out.println("DEBUG - DEMANDANTE");
-		} else if (emp.getNickName().equals(usuarioS) && emp.getContraseña().equals(contraseñaS)) {
-			VentanaEmpresa ventana = new VentanaEmpresa(this, emp);
-			this.dispose();
-			ventana.setVisible(true);
+		/*
+		boolean bandera = conexion.inicioDeSesion(usuarioS, contraseñaS, userU);
+		
+		if (bandera) {
+			if (userU instanceof Demandante) {
+				System.out.println("DEBUG - DEMANDANTE");
+			} else {
+				VentanaEmpresa ventana = new VentanaEmpresa(this, userU);
+				this.dispose();
+				ventana.setVisible(true);
+			}
 		} else {
 			JOptionPane.showMessageDialog(this, "Usuario y/o contraseña incorrectos");
 		}
+		*/
+
+		// Prototipo - Objetos del modelo
+		/**/
+		Demandante dem = new Demandante("pablo", "pablo", "Pablo", "Cornago Gómez", 24);
+		Empresa emp;
+		try {
+			emp = new Empresa("easy", "easy", "EasyCV", "123456789");
+
+			if (dem.getNickName().equals(usuarioS) && dem.getContraseña().equals(contraseñaS)) {
+				System.out.println("DEBUG - DEMANDANTE");
+			} else if (emp.getNickName().equals(usuarioS) && emp.getContraseña().equals(contraseñaS)) {
+				VentanaEmpresa ventana = new VentanaEmpresa(this, emp);
+				this.dispose();
+				ventana.setVisible(true);
+			} else {
+				JOptionPane.showMessageDialog(this, "Usuario y/o contraseña incorrectos");
+			}
+		} catch (nifNoValidoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		/**/
 	}
 }
